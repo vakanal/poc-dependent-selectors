@@ -2,15 +2,12 @@ import type { FC } from "react";
 import { Form } from "react-bootstrap";
 import { type Control, Controller } from "react-hook-form";
 import type { Category } from "@domain/models";
-
-type FormData = {
-  categoryId: string;
-  subCategoryId: string;
-};
+import type { FormValues } from "@schemas/FormSelectsSchema";
+import { LoadingSpinner } from "@components/LoadingSpinner";
 
 type Props = {
-  control: Control<FormData>;
-  name: keyof FormData;
+  control: Control<FormValues>;
+  name: keyof FormValues;
   categories: Category[];
   loading?: boolean;
   disabled?: boolean;
@@ -24,17 +21,18 @@ export const CategorySelect: FC<Props> = ({
   disabled,
 }) => {
   return (
-    <Form.Group controlId="categorySelect" className="mb-3">
-      <Form.Label>Categoria</Form.Label>
-      <Controller
-        control={control}
-        name={name}
-        defaultValue=""
-        render={({ field }) => (
+    <Controller
+      control={control}
+      name={name}
+      defaultValue=""
+      render={({ field, fieldState }) => (
+        <Form.Group controlId="categorySelect" className="mb-3">
+          <Form.Label>Categoria</Form.Label>
           <Form.Select
             {...field}
             aria-label="Seleccionar categoría"
             disabled={disabled || loading}
+            isInvalid={!!fieldState.error}
           >
             <option value="">-- Selecciona una categoría --</option>
             {categories.map((c) => (
@@ -43,8 +41,12 @@ export const CategorySelect: FC<Props> = ({
               </option>
             ))}
           </Form.Select>
-        )}
-      />
-    </Form.Group>
+          <Form.Control.Feedback type="invalid">
+            {fieldState.error?.message}
+          </Form.Control.Feedback>
+          {loading && <LoadingSpinner message="Cargando categorías..." />}
+        </Form.Group>
+      )}
+    />
   );
 };
