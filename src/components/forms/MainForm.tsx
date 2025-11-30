@@ -7,6 +7,7 @@ import { useSubCategories } from "@hooks/useSubCategories";
 import { type FormValues, formSchema } from "@schemas/FormSelectsSchema";
 import { SubmitButton } from "@components/ui/SubmitButton";
 import { CustomSelect } from "@components/ui/CustomSelect";
+import type { Category, SubCategory } from "@domain/models";
 
 export const MainForm: FC = () => {
   const {
@@ -75,7 +76,7 @@ export const MainForm: FC = () => {
         </Alert>
       )}
 
-      <CustomSelect
+      <CustomSelect<Category>
         label="Categoría"
         groupId="category-select"
         control={control}
@@ -86,7 +87,7 @@ export const MainForm: FC = () => {
         loading={loadingCategories}
       />
 
-      <CustomSelect
+      <CustomSelect<SubCategory>
         label="Subcategoría"
         groupId="sub-category-select"
         control={control}
