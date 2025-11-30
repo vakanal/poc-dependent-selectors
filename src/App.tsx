@@ -1,11 +1,11 @@
 import type { FC } from "react";
 import { MainLayout } from "@layouts/MainLayout";
-import { FormSelects } from "@components/FormSelects";
+import { MainForm } from "@components/forms/MainForm";
 
 export const App: FC = () => {
   return (
     <MainLayout>
-      <FormSelects />
+      <MainForm />
     </MainLayout>
   );
 };

@@ -5,11 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCategories } from "@hooks/useCategories";
 import { useSubCategories } from "@hooks/useSubCategories";
 import { type FormValues, formSchema } from "@schemas/FormSelectsSchema";
-import { CategorySelect } from "@components/CategorySelect";
-import { SubCategorySelect } from "@components/SubCategorySelect";
-import { SubmitButton } from "@components/SubmitButton";
+import { SubmitButton } from "@components/ui/SubmitButton";
+import { CustomSelect } from "@components/ui/CustomSelect";
 
-export const FormSelects: FC = () => {
+export const MainForm: FC = () => {
   const {
     categories,
     loading: loadingCategories,
@@ -63,45 +62,52 @@ export const FormSelects: FC = () => {
   );
 
   return (
-    <>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        {errorCategories && (
-          <Alert variant="danger">
-            Error cargando categorías: {errorCategories}
-          </Alert>
-        )}
-        {errorSubCategories && (
-          <Alert variant="danger">
-            Error cargando subcategorías: {errorSubCategories}
-          </Alert>
-        )}
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      {errorCategories && (
+        <Alert variant="danger">
+          Error cargando categorías: {errorCategories}
+        </Alert>
+      )}
 
-        <CategorySelect
-          control={control}
-          name="categoryId"
-          categories={categories}
-          loading={loadingCategories}
-        />
+      {errorSubCategories && (
+        <Alert variant="danger">
+          Error cargando subcategorías: {errorSubCategories}
+        </Alert>
+      )}
 
-        <SubCategorySelect
-          control={control}
-          name="subCategoryId"
-          subCategories={subCategories}
-          loading={loadingSubCategories}
-          disabled={isSubDisabled}
-        />
+      <CustomSelect
+        label="Categoría"
+        groupId="category-select"
+        control={control}
+        name="categoryId"
+        options={categories}
+        placeholder="-- Selecciona una categoría --"
+        spinnerMessage="Cargando categorías..."
+        loading={loadingCategories}
+      />
 
-        <div className="d-flex gap-2">
-          <SubmitButton disabled={formState.isSubmitting}>Enviar</SubmitButton>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => reset()}
-          >
-            Reset
-          </button>
-        </div>
-      </Form>
-    </>
+      <CustomSelect
+        label="Subcategoría"
+        groupId="sub-category-select"
+        control={control}
+        name="subCategoryId"
+        options={subCategories}
+        placeholder="-- Selecciona una subcategoría --"
+        spinnerMessage="Cargando subcategorías..."
+        loading={loadingSubCategories}
+        disabled={isSubDisabled}
+      />
+
+      <div className="d-flex gap-2">
+        <SubmitButton disabled={formState.isSubmitting}>Enviar</SubmitButton>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => reset()}
+        >
+          Reset
+        </button>
+      </div>
+    </Form>
   );
 };

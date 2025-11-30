@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
-const FormExample = () => {
+const ExampleForm = () => {
   const { register, control, handleSubmit } = useForm({
     mode: "onChange",
   });
@@ -21,4 +21,4 @@ const FormExample = () => {
   );
 };
 
-export default FormExample;
+export default ExampleForm;
